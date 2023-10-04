@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
 
@@ -9,11 +10,10 @@ public class App {
         JFrame frame = new JFrame("Laberinto");
         InterfazLaberinto panelLaberinto = new InterfazLaberinto(laberintO);
 
-        frame.add(panelLaberinto);
+    
+        frame.getContentPane().add(panelLaberinto, BorderLayout.CENTER);;
         frame.setSize(300, 300); // Tamaño del frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-
-        
+        frame.setVisible(true);  
     }
 }

@@ -1,9 +1,10 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.JPanel;
+import java.awt.event.MouseEvent;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
 
-public class InterfazLaberinto extends JPanel implements ActionListener {
+public class InterfazLaberinto extends JPanel   {
     private int[][] laberinto;
     private int filas, columnas;
     private int ladoCelda = 20; // Tamaño de cada celda en píxeles
@@ -12,9 +13,25 @@ public class InterfazLaberinto extends JPanel implements ActionListener {
         this.laberinto = laberinto;
         this.filas = laberinto.length;
         this.columnas = laberinto[0].length;
+        
 
-        Timer timer = new Timer(1000, this); // Temporizador para la animación (cada segundo)
-        timer.start();
+        addMouseListener(new MouseAdapter(){
+        @Override
+        public void mousePressed(MouseEvent e) {
+            int fila = e.getX()/ladoCelda;
+            int columna = e.getY()/ladoCelda;
+            if(fila > 10){
+                fila =10;
+            }         
+            if(columna >10){
+                columna =10;
+            }   
+            // Actualizar el estado de la celda seleccionada (por ejemplo, convertirla en pared)
+            laberinto[fila][columna] = 0;
+            
+            repaint(); // Vuelve a pintar el panel para reflejar el cambio
+        }
+    });
     }
 
     @Override
@@ -28,18 +45,11 @@ public class InterfazLaberinto extends JPanel implements ActionListener {
                 } else if (laberinto[i][j] == 0) {
                     g.setColor(Color.WHITE); // Camino libre
                 }
-               // g.fillRect(j * ladoCelda, i * ladoCelda, 1, 1);
-
-                g.drawRect((i+1)*ladoCelda, (j+1)*ladoCelda, (i)*ladoCelda, (j)*ladoCelda);
+                g.drawRect((i)*ladoCelda, (j)*ladoCelda, ladoCelda, ladoCelda);
                 
             }
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // Lógica de animación (si es necesario)
-        repaint();
-    }
 }
 
