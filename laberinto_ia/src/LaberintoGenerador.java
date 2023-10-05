@@ -19,8 +19,6 @@ public class LaberintoGenerador {
                 System.out.println("Pared en: [" + i + "] ["+j+"]");
             }
         }
-        verLaberinto();
-
         return laberinto;
     }
     private void verLaberinto(){
