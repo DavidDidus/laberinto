@@ -23,7 +23,7 @@ public class VentanaLaberinto {
     }
     public void iniciarVentana(){
         frame = new JFrame("Laberinto");
-        frame.setSize(716, 500); // Tamaño del frame
+        frame.setSize(716, 490); // Tamaño del frame
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
@@ -58,6 +58,17 @@ public class VentanaLaberinto {
                 panelLaberinto.setValor(3);
             }
         });
+        JButton botonLimpiar = new JButton("Limpiar");
+        botonLimpiar.setBounds(1, 400,250,50);
+        botonLimpiar.setBackground(color = new Color(44,47,51));
+        botonLimpiar.setForeground(color = new Color(255,255,255));
+        panel.add(botonLimpiar);
+        botonLimpiar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                panelLaberinto.limpiar();
+            }
+        });
+
 
         JButton botonIniciar = new JButton("Iniciar algoritmo");
         botonIniciar.setBounds(1, 150,250,50);

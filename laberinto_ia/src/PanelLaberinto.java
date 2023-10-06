@@ -19,7 +19,6 @@ public class PanelLaberinto extends JPanel   {
         this.laberinto = laberinto;
         this.filas = laberinto.length;
         this.columnas = laberinto[0].length;
-        
 
         addMouseListener(new MouseAdapter(){
         @Override
@@ -108,6 +107,14 @@ public class PanelLaberinto extends JPanel   {
     }
     public int[][] getLaberinto() {
         return laberinto;
+    }
+    public void limpiar(){
+        for(int i=0;i<filas;i++){
+            for(int j=0;j<columnas;j++){
+                laberinto[i][j] =1;
+            }
+        }
+        repaint();
     }
 
 }
