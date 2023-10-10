@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 
+
 public class PanelLaberinto extends JPanel   {
     private int[][] laberinto;
     private int filas, columnas;
@@ -12,6 +13,7 @@ public class PanelLaberinto extends JPanel   {
     private int valorAlmacenado = 0;
     private Point posComienzo;
     private Point posFinal;
+    
     private Color color;
     
 
@@ -24,9 +26,9 @@ public class PanelLaberinto extends JPanel   {
         @Override
         public void mousePressed(MouseEvent e) {
             try {
-                int fila = e.getX()/ladoCelda;
-                int columna = e.getY()/ladoCelda;
-                
+                int fila = e.getY() / ladoCelda;
+                int columna = e.getX() / ladoCelda;
+                System.out.println(fila + " " + columna);
                 if(valorAlmacenado == 2){
                     if(posComienzo == null){
                         laberinto[fila][columna] = valorAlmacenado;
@@ -80,18 +82,20 @@ public class PanelLaberinto extends JPanel   {
             for (int j = 0; j < columnas; j++) {
                 g.setColor(Color.BLACK); // Pared
                 if (laberinto[i][j] == 1) {
-                    g.drawRect(i*ladoCelda, j*ladoCelda, ladoCelda, ladoCelda);
+                    g.drawRect(j*ladoCelda, i*ladoCelda, ladoCelda, ladoCelda);
                 } else if (laberinto[i][j] == 0) {
                      // Camino libre
-                    g.fillRect(i*ladoCelda, j*ladoCelda, ladoCelda, ladoCelda);
+                    g.fillRect(j*ladoCelda, i*ladoCelda, ladoCelda, ladoCelda);
                 }else if (laberinto[i][j] == 2){
                     g.setColor(color = new Color(114,137,218));
-                    g.fillRect(i*ladoCelda, j*ladoCelda, ladoCelda, ladoCelda);
+                    g.fillRect(j*ladoCelda, i*ladoCelda, ladoCelda, ladoCelda);
                 }else if (laberinto[i][j] == 3){
                     g.setColor(color = new Color(255,87,123));
-                    g.fillRect(i*ladoCelda, j*ladoCelda, ladoCelda, ladoCelda);
+                    g.fillRect(j*ladoCelda, i*ladoCelda, ladoCelda, ladoCelda);
+                }else if (laberinto[i][j] == 4){
+                    g.setColor(color = new Color(77,101,77));
+                    g.fillRect(j*ladoCelda, i*ladoCelda, ladoCelda, ladoCelda);
                 }
-                
             }
         }
     }
@@ -116,6 +120,15 @@ public class PanelLaberinto extends JPanel   {
         }
         repaint();
     }
-
+    public void insertarCamino(int x, int y,int i) {
+        if(x == posComienzo.getX() && y == posComienzo.getY()){}
+        else if((x == posFinal.getX() && y == posFinal.getY())){}
+        else{
+           
+            laberinto[x][y] = 4;
+        }
+        repaint();
+        
+    }
 }
 

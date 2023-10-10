@@ -16,9 +16,6 @@ public class Laberinto {
                 laberinto[i][j] = 1; // 1 representa una pared
             }
         }
-
-        verLaberinto();
-
         return laberinto;
     }
     private void verLaberinto(){

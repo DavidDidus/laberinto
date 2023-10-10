@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class VentanaLaberinto {
     private Color color;
@@ -16,9 +17,28 @@ public class VentanaLaberinto {
     private boolean iniciar = false;
     private List<Point> camino;
     private JFrame frame;
+    private Timer timer;
     
     public VentanaLaberinto(int[][] laberinto){
         this.laberinto = laberinto;
+
+        timer = new Timer(500, new ActionListener() {
+            private int indice = 0;
+        
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (indice < camino.size()-1) {
+                    Point coordenada = camino.get(indice);
+                    panelLaberinto.insertarCamino((int)coordenada.getX(), (int)coordenada.getY(),indice);
+                    System.out.println((int)coordenada.getX() + " " +(int)coordenada.getY());
+                    indice++;
+                } else {
+                    indice=0;
+                    ((Timer) timer).stop();
+                    
+                }
+            }
+        });
 
     }
     public void iniciarVentana(){
@@ -58,6 +78,7 @@ public class VentanaLaberinto {
                 panelLaberinto.setValor(3);
             }
         });
+
         JButton botonLimpiar = new JButton("Limpiar");
         botonLimpiar.setBounds(1, 400,250,50);
         botonLimpiar.setBackground(color = new Color(44,47,51));
@@ -66,6 +87,7 @@ public class VentanaLaberinto {
         botonLimpiar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 panelLaberinto.limpiar();
+                
             }
         });
 
@@ -91,11 +113,8 @@ public class VentanaLaberinto {
     public int [][] getLaberinto(){
         return panelLaberinto.getLaberinto();
     }
-    public void insertarCamino(){
-        for(Point coordenada : camino){
-            laberinto[(int)coordenada.getX()][(int)coordenada.getY()] = 4;
-        }
-        panelLaberinto = new PanelLaberinto(laberinto);
-        frame.getContentPane().add(panelLaberinto,BorderLayout.CENTER);
+    public void insertarCamino() {
+        timer.start();
+        
     }
 }
