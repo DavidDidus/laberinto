@@ -28,7 +28,6 @@ public class Nodo {
     }
     public void setH(int h) {
         this.h = h;
-        f = g+h;
     }
     public void setCoordenada(Point coordenada) {
         this.coordenada = coordenada;
@@ -41,5 +40,8 @@ public class Nodo {
     }
     public double getY() {
         return coordenada.getY() ;
+    }
+    public void setF(int f) {
+        this.f = f;
     }
 }

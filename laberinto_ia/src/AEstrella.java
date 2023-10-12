@@ -1,5 +1,6 @@
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.lang.Math;
 
 public class AEstrella {
@@ -18,17 +19,94 @@ public class AEstrella {
     public ArrayList<Point> encontrarCamino(Point inicio, Point destino) {
         ArrayList<Nodo> listaAbierta = new ArrayList<Nodo>();
         ArrayList<Nodo> listaCerrada = new ArrayList<Nodo>();
+
+        // Añadir el nodo de inicio a la lista abierta
+        Nodo nodoInicio = new Nodo(inicio);
+        nodoInicio.setG(0);
+        nodoInicio.setH(calcularH(inicio, destino));
+        listaAbierta.add(nodoInicio);
+
+        while(!listaAbierta.isEmpty()){
+            // Obtener el nodo con el valor f(n) más bajo
+            Nodo actual = obtenerNodoMenorCosto(listaAbierta);
+            listaAbierta.remove(actual);
+            listaCerrada.add(actual);
+
+            if(actual.getCoordenada().equals(destino)){
+                return construirCamino(actual);
+            }
+
+            for(Point direccion : direcciones){
+                int x = (int) (actual.getX() + direccion.getX());
+                int y = (int) (actual.getY() + direccion.getY());
+            
+                try {
+                    if(laberinto[x][y] != 0 && !buscarNodo(listaCerrada, new Point(x, y))) {
+                        Nodo sucesor = new Nodo(new Point(x, y));
+                        sucesor.setPadre(actual);
+            
+                        int costo;
+                        if(direccion.getX() == 0 || direccion.getY() == 0) {
+                            costo = 10;
+                        }else {
+                            costo = 14;
+                        }
+                        sucesor.setG(actual.getG() + costo);
+                        sucesor.setH(calcularH(sucesor.getCoordenada(), destino));
+                        sucesor.setF(sucesor.getG() + sucesor.getH());
+            
+                        if(!buscarNodo(listaAbierta, sucesor)) {
+                            listaAbierta.add(sucesor);
+                        }else {
+                            Nodo nodoEnListaAbierta = getNodo(listaAbierta, sucesor);
+                            if(sucesor.getG() < nodoEnListaAbierta.getG()) {
+                                nodoEnListaAbierta.setG(sucesor.getG());
+                                nodoEnListaAbierta.setPadre(actual);
+                            }
+                        }
+                    }
+                }catch (Exception e) {
+                    // Manejar excepciones
+                }
+            }
+        }
+
+        return null; // Si llegamos aquí, no se encontró una solución
+    }
+    private Nodo obtenerNodoMenorCosto(ArrayList<Nodo> lista) {
+    Nodo nodoMenorCosto = lista.get(0);
+    for (Nodo nodo : lista) {
+        if (nodo.getF() < nodoMenorCosto.getF()) {
+            nodoMenorCosto = nodo;
+        }
+    }
+    return nodoMenorCosto;
+}
+
+private ArrayList<Point> construirCamino(Nodo nodoFinal) {
+    ArrayList<Point> camino = new ArrayList<>();
+    Nodo actual = nodoFinal;
+    while (actual != null) {
+        camino.add(actual.getCoordenada());
+        actual = actual.getPadre();
+    }
+    Collections.reverse(camino);
+    return camino;
+}
+
+    /** 
+    public ArrayList<Point> encontrarCamino(Point inicio, Point destino) {
+        ArrayList<Nodo> listaAbierta = new ArrayList<Nodo>();
+        ArrayList<Nodo> listaCerrada = new ArrayList<Nodo>();
         boolean run = true;
         
         int x,y;
         Nodo inicioNodo = new Nodo(inicio);
         listaCerrada.add(inicioNodo);
-        listaAbierta.add(inicioNodo);
-        while(run){
-            if (listaAbierta.isEmpty()) {
-                break; // No hay más nodos para explorar, terminar el bucle
-            }
+        
+        while(!listaCerrada.isEmpty()){
             Nodo actual = listaCerrada.get(listaCerrada.size() - 1);
+            listaAbierta.remove(inicioNodo);
             System.out.println(actual.getCoordenada());
             Nodo costoMasBajo = new Nodo(new Point(0, 0));
             costoMasBajo.setH(99999);
@@ -80,13 +158,7 @@ public class AEstrella {
         return convertirLista(listaCerrada);
         
     }
-    private ArrayList<Point> convertirLista(ArrayList<Nodo> lista){
-        ArrayList<Point> listaNueva = new ArrayList<Point>();
-        for(Nodo nodo : lista){
-            listaNueva.add(nodo.getCoordenada());
-        }
-        return listaNueva;
-    }
+    **/
     private Nodo getNodo(ArrayList<Nodo> lista ,Nodo buscado){
         for(Nodo nodo : lista){
             if(nodo.getCoordenada().equals(buscado.getCoordenada())){

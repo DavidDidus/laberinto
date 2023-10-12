@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -14,10 +15,10 @@ public class VentanaLaberinto {
     private Color color;
     private int[][] laberinto;
     private PanelLaberinto panelLaberinto;
-    private boolean iniciar = false;
     private List<Point> camino;
     private JFrame frame;
     private Timer timer;
+    
     
     public VentanaLaberinto(int[][] laberinto){
         this.laberinto = laberinto;
@@ -30,7 +31,6 @@ public class VentanaLaberinto {
                 if (indice < camino.size()-1) {
                     Point coordenada = camino.get(indice);
                     panelLaberinto.insertarCamino((int)coordenada.getX(), (int)coordenada.getY(),indice);
-                    System.out.println((int)coordenada.getX() + " " +(int)coordenada.getY());
                     indice++;
                 } else {
                     indice=0;
@@ -50,12 +50,25 @@ public class VentanaLaberinto {
         
         panelLaberinto = new PanelLaberinto(laberinto);
         frame.getContentPane().add(panelLaberinto,BorderLayout.CENTER);
-
+        
         JPanel panel = new JPanel();
         panel.setLayout(null);
         panel.setPreferredSize( new Dimension(250, frame.getWidth()));
         panel.setBackground(Color.gray);
         frame.getContentPane().add(panel,BorderLayout.EAST);   
+        
+        JLabel mensajeNoSolucion = new JLabel("El laberinto no tiene solución.");
+        mensajeNoSolucion.setBounds(1, 300, 250, 50);
+        mensajeNoSolucion.setBackground(color = new Color(0,0,0));
+        mensajeNoSolucion.setVisible(false);
+        panel.add(mensajeNoSolucion);
+
+        JLabel textoLimpiar = new JLabel("Presione limpiar para realizar \n" +
+                                            "un nuevo laberinto.");
+        textoLimpiar.setBounds(1, 350, 250, 50);
+        textoLimpiar.setBackground(color = new Color(0,0,0));
+        textoLimpiar.setVisible(false);
+        panel.add(textoLimpiar);
 
         JButton botonInicio = new JButton("Seleccionar punto de partida");
         botonInicio.setBounds(1, 1,250,50);
@@ -78,7 +91,7 @@ public class VentanaLaberinto {
                 panelLaberinto.setValor(3);
             }
         });
-
+        
         JButton botonLimpiar = new JButton("Limpiar");
         botonLimpiar.setBounds(1, 400,250,50);
         botonLimpiar.setBackground(color = new Color(44,47,51));
@@ -87,7 +100,8 @@ public class VentanaLaberinto {
         botonLimpiar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 panelLaberinto.limpiar();
-                
+                panelLaberinto.setDetener(true);
+                textoLimpiar.setVisible(false);
             }
         });
 
@@ -102,13 +116,18 @@ public class VentanaLaberinto {
                 laberinto = panelLaberinto.getLaberinto();
                 AEstrella aEstrella = new AEstrella(laberinto);
                 camino = aEstrella.encontrarCamino(panelLaberinto.getPosComienzo(), panelLaberinto.getPosFinal());
-                insertarCamino();
-            }
-            
+                if(camino != null){
+                     mensajeNoSolucion.setVisible(false);
+                    textoLimpiar.setVisible(false); // texto que arreglar
+                    insertarCamino();
+                    panelLaberinto.setDetener(false);
+                }else{
+                    mensajeNoSolucion.setVisible(true);  
+                }
+            }            
         });
-        frame.setVisible(true);  
         
-
+        frame.setVisible(true);  
     }
     public int [][] getLaberinto(){
         return panelLaberinto.getLaberinto();

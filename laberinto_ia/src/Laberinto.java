@@ -10,20 +10,11 @@ public class Laberinto {
     }
 
     public int[][] generarLaberinto() {
-        // Inicializa el laberinto con paredes.
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) { 
-                laberinto[i][j] = 1; // 1 representa una pared
+                laberinto[i][j] = 1;
             }
         }
         return laberinto;
     }
-    private void verLaberinto(){
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
-                System.out.println("Valor " + laberinto[i][j] + " en: [" + i + "] ["+j+"]");
-            }
-        }
-    }
-
 }
