@@ -19,7 +19,6 @@ public class VentanaLaberinto {
     private JFrame frame;
     private Timer timer;
     
-    
     public VentanaLaberinto(int[][] laberinto){
         this.laberinto = laberinto;
 
@@ -59,14 +58,13 @@ public class VentanaLaberinto {
         
         JLabel mensajeNoSolucion = new JLabel("El laberinto no tiene solución.");
         mensajeNoSolucion.setBounds(1, 300, 250, 50);
-        mensajeNoSolucion.setBackground(color = new Color(0,0,0));
+        mensajeNoSolucion.setForeground(color = new Color(255,255,255));
         mensajeNoSolucion.setVisible(false);
         panel.add(mensajeNoSolucion);
 
-        JLabel textoLimpiar = new JLabel("Presione limpiar para realizar \n" +
-                                            "un nuevo laberinto.");
+        JLabel textoLimpiar = new JLabel("Presione limpiar para continuar");
         textoLimpiar.setBounds(1, 350, 250, 50);
-        textoLimpiar.setBackground(color = new Color(0,0,0));
+        textoLimpiar.setForeground(color = new Color(255,255,255));
         textoLimpiar.setVisible(false);
         panel.add(textoLimpiar);
 
@@ -117,8 +115,8 @@ public class VentanaLaberinto {
                 AEstrella aEstrella = new AEstrella(laberinto);
                 camino = aEstrella.encontrarCamino(panelLaberinto.getPosComienzo(), panelLaberinto.getPosFinal());
                 if(camino != null){
-                     mensajeNoSolucion.setVisible(false);
-                    textoLimpiar.setVisible(false); // texto que arreglar
+                    mensajeNoSolucion.setVisible(false);
+                    textoLimpiar.setVisible(true); // texto que arreglar
                     insertarCamino();
                     panelLaberinto.setDetener(false);
                 }else{
