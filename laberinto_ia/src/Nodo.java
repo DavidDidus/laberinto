@@ -1,5 +1,8 @@
 import java.awt.Point;
 
+/**
+ * Clase que representa puntos del camino para la implementacion del algoritmo
+ */
 public class Nodo {
     private Point coordenada;
     private Nodo padre;

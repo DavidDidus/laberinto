@@ -3,6 +3,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.lang.Math;
 
+/**
+ * Clase que representa el funcionamiento del algoritmo A*
+ */
 public class AEstrella {
     private int[][] laberinto;
     private int filas, columnas;
@@ -79,9 +82,9 @@ public class AEstrella {
         return null; // Si llegamos aquí, no se encontró una solución
     }
     /**
-     * 
-     * @param lista Lista con
-     * @return
+     * Funcion que obtiene el nodo con menor costo de una lista
+     * @param lista Lista con nodos
+     * @return El nodo con menor costo de la lista
      */
     private Nodo obtenerNodoMenorCosto(ArrayList<Nodo> lista) {
         Nodo nodoMenorCosto = lista.get(0);
@@ -93,6 +96,11 @@ public class AEstrella {
         return nodoMenorCosto;
     }
 
+    /**
+     * Contruye el camino desde el nodo final recorriendo sus padres
+     * @param nodo nodo final
+     * @return array con el camino 
+     */
     private ArrayList<Point> construirCamino(Nodo nodoFinal) {
         ArrayList<Point> camino = new ArrayList<>();
         Nodo actual = nodoFinal;
@@ -103,7 +111,13 @@ public class AEstrella {
         Collections.reverse(camino);
         return camino;
     }
-
+    
+    /**
+     * Busca un nodo en una lista de nodos
+     * @param lista lista de nodos
+     * @param buscado nodo buscado
+     * @return el nodo buscado
+     */
     private Nodo getNodo(ArrayList<Nodo> lista ,Nodo buscado){
         for(Nodo nodo : lista){
             if(nodo.getCoordenada().equals(buscado.getCoordenada())){
@@ -112,7 +126,12 @@ public class AEstrella {
         }
         return buscado;
     }
-    
+    /**
+     * Busca un nodo en una lista de nodos
+     * @param lista lista de nodos
+     * @param buscado nodo buscado
+     * @return true si el nodo existe y false si no existe
+     */
     private boolean buscarNodo(ArrayList<Nodo> lista ,Nodo buscado){
         for(Nodo nodo : lista){
             if(nodo.getCoordenada().equals(buscado.getCoordenada())){
@@ -121,6 +140,12 @@ public class AEstrella {
         }
         return false;
     }
+    /**
+     * Busca un nodo en una lista de nodos
+     * @param lista lista de nodos
+     * @param buscado coordenadas del nodo buscado
+     * @return true si el nodo existe y false si no existe
+     */
      private boolean buscarNodo(ArrayList<Nodo> lista ,Point buscado){
         for(Nodo nodo : lista){
             if(nodo.getCoordenada().equals(buscado)){
@@ -129,10 +154,15 @@ public class AEstrella {
         }
         return false;
     }
-
+    /**
+     * Calcula el h(n) de un nodo
+     * @param punto punto del nodo
+     * @param meta final del laberinto
+     * @return el valor de h(n)
+     */
     private int calcularH(Point punto, Point meta) {
-        int dx = Math.abs((int)punto.getX() - (int)meta.getX());
-        int dy = Math.abs((int)punto.getY() - (int)meta.getY());
+        int dx = Math.abs((int)punto.getX() - (int)meta.getX()); // valor absoluto de x_punto - x_meta
+        int dy = Math.abs((int)punto.getY() - (int)meta.getY()); // valor absoluto de y_punto - y_meta
         return 10*(dx+dy);
     }
 
